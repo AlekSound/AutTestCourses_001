@@ -2,10 +2,13 @@ package com.test;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.swing.*;
+import javax.xml.bind.helpers.AbstractUnmarshallerImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,55 +18,24 @@ public class FirstClass {
         System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 
         WebDriver driver = new ChromeDriver();
-        driver.get("https://the-internet.herokuapp.com/javascript_alerts");
+        driver.get("https://the-internet.herokuapp.com/context_menu");
+        Actions x = new Actions(driver);
+        x.contextClick(driver.findElement(By.id("hot-spot"))).perform();
 
-        driver.findElement(By.xpath("//*[contains(text(), 'Click for JS Alert')]")).click();
-        Alert alert1 = driver.switchTo().alert();
-        Thread.sleep(2000);
-        alert1.accept();
+        //driver.findElement(By.id("hot-spot")).contextClick();
 
-        driver.findElement(By.xpath("//*[contains(text(), 'Click for JS Confirm')]")).click();
-        Alert alert2 = driver.switchTo().alert();
-        Thread.sleep(2000);
-        alert2.dismiss();
+//        WebElement source = driver.findElement(By.id("column-a"));
+//        WebElement target = driver.findElement(By.id("column-b"));
+//        Actions builder = new Actions(driver);
+//        builder.dragAndDrop(source, target).perform();
 
-        driver.findElement(By.xpath("//*[contains(text(), 'Click for JS Prompt')]")).click();
-        Alert alert3 = driver.switchTo().alert();
-        Thread.sleep(2000);
-        alert3.sendKeys("text");
-        alert3.accept();
+        //System.out.println(getTextByJS(driver.findElement(By.id("finish")).findElement(By.xpath("//.[contains(text(), 'Hello World!')]")), driver));
 
-
-
-
-
-//        WebElement x = driver.findElement(By.id("search_query_top"));
-//        x.sendKeys("Blouse");
-//        x.sendKeys(Keys.ENTER);
-//
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        boolean b = driver.findElement(By.xpath("//*[contains(text(), '1 result has been found.')]")).isDisplayed();
-//        System.out.println(b);
-//
-//        String s = driver.findElement(By.xpath("//*[contains(text(), '1 result has been found.')]")).getTagName();
-//        System.out.println(s);
-
-
-
-//        WebElement dynamicElement =
-//                (new WebDriverWait(driver, 10)).
-//                        until(ExpectedConditions.
-//                                        presenceOfElementLocated(By.xpath("//*[@title='Faded Short Sleeve T-shirts']")));
-//
-//        dynamicElement.click();
-
-
-        //driver.close();
-
+        //driver.quit();
     }
+    public static String getTextByJS(final WebElement element, WebDriver driver) {
+        String script = "var element = arguments[0];" + "return element.textContent;";
+        return (String) ((JavascriptExecutor)driver).executeScript(script, element);
+    }
+
 }
